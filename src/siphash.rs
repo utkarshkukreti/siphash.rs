@@ -21,14 +21,16 @@ macro_rules! rotl {
 
 macro_rules! u8to64le {
     ($buf:expr, $i:expr) => {
-        $buf[$i + 0] as u64 << 0 |
-        $buf[$i + 1] as u64 << 8 |
-        $buf[$i + 2] as u64 << 16 |
-        $buf[$i + 3] as u64 << 24 |
-        $buf[$i + 4] as u64 << 32 |
-        $buf[$i + 5] as u64 << 40 |
-        $buf[$i + 6] as u64 << 48 |
-        $buf[$i + 7] as u64 << 56
+        unsafe {
+            *$buf.unsafe_ref($i + 0) as u64 << 0 |
+            *$buf.unsafe_ref($i + 1) as u64 << 8 |
+            *$buf.unsafe_ref($i + 2) as u64 << 16 |
+            *$buf.unsafe_ref($i + 3) as u64 << 24 |
+            *$buf.unsafe_ref($i + 4) as u64 << 32 |
+            *$buf.unsafe_ref($i + 5) as u64 << 40 |
+            *$buf.unsafe_ref($i + 6) as u64 << 48 |
+            *$buf.unsafe_ref($i + 7) as u64 << 56
+        }
     }
 }
 
@@ -85,7 +87,9 @@ impl SipHasher {
         }
 
         while i < len {
-            b |= bytes[i] as u64 << (8 * i);
+            unsafe {
+                b |= *bytes.unsafe_ref(i) as u64 << 8 * i
+            }
             i += 1;
         }
 
