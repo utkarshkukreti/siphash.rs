@@ -175,9 +175,9 @@ mod test {
         for i in range(0u, 64) {
             buf[i] = i as u8;
 
-            let expected = vectors[i].iter().rev().fold(0u64, |acc, &x| {
-                acc << 8 | x as u64
-            });
+            let expected = unsafe {
+                *(vectors[i].as_ptr() as *const u64)
+            };
 
             assert_eq!(expected, sip.hash(buf.slice_to(i)));
         }
