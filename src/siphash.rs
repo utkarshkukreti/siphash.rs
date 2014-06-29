@@ -67,22 +67,18 @@ impl SipHasher {
         v1 ^= self.k1;
         v0 ^= self.k0;
 
-        let mut i = 0;
-
-        while i != end {
+        for i in core::iter::range_step(0, end, 8) {
             let m = u8to64le!(bytes, i);
             v3 ^= m;
             round!(v0, v1, v2, v3);
             round!(v0, v1, v2, v3);
             v0 ^= m;
-            i += 8;
         }
 
-        while i < len {
+        for i in range(end, len) {
             unsafe {
                 b |= *bytes.unsafe_ref(i) as u64 << 8 * i
             }
-            i += 1;
         }
 
         v3 ^= b;
