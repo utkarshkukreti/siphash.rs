@@ -20,15 +20,6 @@ macro_rules! rotl {
     ($x:expr, $b:expr) => { ($x << $b) | ($x >> (64 - $b)) }
 }
 
-macro_rules! u8to64le {
-    ($buf:expr, $i:expr) => {
-        unsafe {
-            let i: *u64 = core::mem::transmute($buf.as_ptr().offset($i as int));
-            (*i).to_le()
-        }
-    }
-}
-
 macro_rules! round {
     ($v0:ident, $v1:ident, $v2:ident, $v3:ident) => {{
         $v0 += $v1; $v1 = rotl!($v1, 13); $v1 ^= $v0; $v0 = rotl!($v0, 32);
@@ -68,7 +59,10 @@ impl SipHasher {
         v0 ^= self.k0;
 
         for i in core::iter::range_step(0, end, 8) {
-            let m = u8to64le!(bytes, i);
+            let m = unsafe {
+                (*(bytes.as_ptr().offset(i as int) as *u64)).to_le()
+            };
+
             v3 ^= m;
             round!(v0, v1, v2, v3);
             round!(v0, v1, v2, v3);
