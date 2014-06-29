@@ -1,4 +1,5 @@
 #![crate_id = "siphash"]
+#![crate_type = "lib"]
 #![feature(globs, macro_rules, phase)]
 #![no_std]
 
