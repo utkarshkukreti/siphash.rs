@@ -60,7 +60,7 @@ impl SipHasher {
 
         for i in core::iter::range_step(0, end, 8) {
             let m = unsafe {
-                (*(bytes.as_ptr().offset(i as int) as *u64)).to_le()
+                (*(bytes.as_ptr().offset(i as int) as *const u64)).to_le()
             };
 
             v3 ^= m;
