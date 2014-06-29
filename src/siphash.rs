@@ -1,14 +1,44 @@
 #![crate_id = "siphash"]
-#![feature(globs, phase)]
+#![feature(globs, macro_rules, phase)]
 #![no_std]
+
+extern crate core;
 
 // For tests.
 #[cfg(test)] #[phase(plugin, link)] extern crate std;
 #[cfg(test)] extern crate native;
 
+use core::prelude::*;
+
 pub struct SipHasher {
     k0: u64,
     k1: u64
+}
+
+macro_rules! rotl {
+    ($x:expr, $b:expr) => { ($x << $b) | ($x >> (64 - $b)) }
+}
+
+macro_rules! u8to64le {
+    ($buf:expr, $i:expr) => {
+        $buf[$i + 0] as u64 << 0 |
+        $buf[$i + 1] as u64 << 8 |
+        $buf[$i + 2] as u64 << 16 |
+        $buf[$i + 3] as u64 << 24 |
+        $buf[$i + 4] as u64 << 32 |
+        $buf[$i + 5] as u64 << 40 |
+        $buf[$i + 6] as u64 << 48 |
+        $buf[$i + 7] as u64 << 56
+    }
+}
+
+macro_rules! round {
+    ($v0:ident, $v1:ident, $v2:ident, $v3:ident) => {{
+        $v0 += $v1; $v1 = rotl!($v1, 13); $v1 ^= $v0; $v0 = rotl!($v0, 32);
+        $v2 += $v3; $v3 = rotl!($v3, 16); $v3 ^= $v2;
+        $v0 += $v3; $v3 = rotl!($v3, 21); $v3 ^= $v0;
+        $v2 += $v1; $v1 = rotl!($v1, 17); $v1 ^= $v2; $v2 = rotl!($v2, 32);
+    }}
 }
 
 impl SipHasher {
@@ -24,7 +54,55 @@ impl SipHasher {
     }
 
     pub fn hash(&self, bytes: &[u8]) -> u64 {
-        0
+        let len = bytes.len();
+
+        let k0 = self.k0;
+        let k1 = self.k1;
+
+        let mut v0 = 0x736f6d6570736575;
+        let mut v1 = 0x646f72616e646f6d;
+        let mut v2 = 0x6c7967656e657261;
+        let mut v3 = 0x7465646279746573;
+
+        let left = len & 7;
+        let end = len - left;
+        let mut b: u64 = len as u64 << 56;
+
+        v3 ^= k1;
+        v2 ^= k0;
+        v1 ^= k1;
+        v0 ^= k0;
+
+        let mut i = 0;
+
+        while i != end {
+            let m = u8to64le!(bytes, i);
+            v3 ^= m;
+            round!(v0, v1, v2, v3);
+            round!(v0, v1, v2, v3);
+            v0 ^= m;
+            i += 8;
+        }
+
+        while i < len {
+            b |= bytes[i] as u64 << (8 * i);
+            i += 1;
+        }
+
+        v3 ^= b;
+
+        round!(v0, v1, v2, v3);
+        round!(v0, v1, v2, v3);
+
+        v0 ^= b;
+        v2 ^= 0xff;
+
+        round!(v0, v1, v2, v3);
+        round!(v0, v1, v2, v3);
+        round!(v0, v1, v2, v3);
+        round!(v0, v1, v2, v3);
+
+        v0 ^ v1 ^ v2 ^ v3
     }
 }
 
@@ -111,7 +189,9 @@ mod test {
         for i in range(0u, 64) {
             buf[i] = i as u8;
 
-            let expected = vectors[i].iter().fold(0u64, |acc, &x| acc << 8 | x as u64);
+            let expected = vectors[i].iter().rev().fold(0u64, |acc, &x| {
+                acc << 8 | x as u64
+            });
 
             assert_eq!(expected, sip.hash(buf.slice_to(i)));
         }
