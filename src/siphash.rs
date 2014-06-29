@@ -23,14 +23,8 @@ macro_rules! rotl {
 macro_rules! u8to64le {
     ($buf:expr, $i:expr) => {
         unsafe {
-            *$buf.unsafe_ref($i + 0) as u64 << 0 |
-            *$buf.unsafe_ref($i + 1) as u64 << 8 |
-            *$buf.unsafe_ref($i + 2) as u64 << 16 |
-            *$buf.unsafe_ref($i + 3) as u64 << 24 |
-            *$buf.unsafe_ref($i + 4) as u64 << 32 |
-            *$buf.unsafe_ref($i + 5) as u64 << 40 |
-            *$buf.unsafe_ref($i + 6) as u64 << 48 |
-            *$buf.unsafe_ref($i + 7) as u64 << 56
+            let i: *u64 = core::mem::transmute($buf.as_ptr().offset($i as int));
+            (*i).to_le()
         }
     }
 }
