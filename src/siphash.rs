@@ -58,9 +58,6 @@ impl SipHasher {
     pub fn hash(&self, bytes: &[u8]) -> u64 {
         let len = bytes.len();
 
-        let k0 = self.k0;
-        let k1 = self.k1;
-
         let mut v0 = 0x736f6d6570736575;
         let mut v1 = 0x646f72616e646f6d;
         let mut v2 = 0x6c7967656e657261;
@@ -70,10 +67,10 @@ impl SipHasher {
         let end = len - left;
         let mut b: u64 = len as u64 << 56;
 
-        v3 ^= k1;
-        v2 ^= k0;
-        v1 ^= k1;
-        v0 ^= k0;
+        v3 ^= self.k1;
+        v2 ^= self.k0;
+        v1 ^= self.k1;
+        v0 ^= self.k0;
 
         let mut i = 0;
 
