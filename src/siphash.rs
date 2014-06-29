@@ -17,7 +17,7 @@ pub struct SipHasher {
 }
 
 macro_rules! rotl {
-    ($x:expr, $b:expr) => { ($x << $b) | ($x >> (64 - $b)) }
+    ($x:expr, $b:expr) => { $x << $b | $x >> (64 - $b) }
 }
 
 macro_rules! round {
