@@ -1,4 +1,4 @@
-#![feature(globs, macro_rules, phase)]
+#![feature(macro_rules)]
 
 extern crate siphash;
 extern crate core;
