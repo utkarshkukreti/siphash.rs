@@ -11,3 +11,6 @@ test: lib
 bench: lib
 	rustc $(RUST_FLAGS) --test src/siphash_test.rs
 	target/siphash_test --bench
+
+clean:
+	rm -rf target
