@@ -1,0 +1,10 @@
+[package]
+name = "foo"
+version = "0.0.0"
+authors = ["foo"]
+
+[[bin]]
+name = "foo"
+
+[dependencies.siphash]
+git = "https://github.com/utkarshkukreti/siphash.rs.git"
