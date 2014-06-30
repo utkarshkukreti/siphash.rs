@@ -79,11 +79,9 @@ fn test_reference_impl() {
 
     let sip = SipHasher::new_with_keys(k0, k1);
 
-    let mut buf = [0u8, ..64];
+    let buf = Vec::from_fn(64, |i| i as u8);
 
     for i in range(0u, 64) {
-        buf[i] = i as u8;
-
         let expected = unsafe {
             *(vectors[i].as_ptr() as *const u64)
         };
