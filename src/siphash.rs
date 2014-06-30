@@ -69,11 +69,24 @@ impl SipHasher {
             v0 ^= m;
         }
 
-        for i in range(len - left, len) {
-            unsafe {
-                b |= *bytes.unsafe_ref(i) as u64 << 8 * i
-            }
+        macro_rules! k {
+            ($($i:expr)+) => {{
+                unsafe {
+                    $(b |= *bytes.unsafe_ref(len - left + $i) as u64 << 8 * $i;)+
+                }
+            }}
         }
+
+        match left {
+            7 => k!(0 1 2 3 4 5 6),
+            6 => k!(0 1 2 3 4 5),
+            5 => k!(0 1 2 3 4),
+            4 => k!(0 1 2 3),
+            3 => k!(0 1 2),
+            2 => k!(0 1),
+            1 => k!(0),
+            _ => {}
+        };
 
         v3 ^= b;
 
