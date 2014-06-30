@@ -48,7 +48,7 @@ impl SipHasher {
         let mut v3 = 0x7465646279746573;
 
         let left = len & 7;
-        let mut b: u64 = len as u64 << 56;
+        let mut b = len as u64 << 56;
 
         v3 ^= self.k1;
         v2 ^= self.k0;
