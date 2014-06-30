@@ -1,6 +1,6 @@
 #![crate_id = "siphash"]
 #![crate_type = "lib"]
-#![feature(globs, macro_rules, phase)]
+#![feature(globs, macro_rules)]
 #![no_std]
 
 extern crate core;
