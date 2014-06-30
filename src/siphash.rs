@@ -6,6 +6,8 @@
 extern crate core;
 
 use core::prelude::*;
+use core::intrinsics::transmute;
+use core::raw::Slice;
 
 pub struct SipHasher {
     k0: u64,
@@ -46,7 +48,6 @@ impl SipHasher {
         let mut v3 = 0x7465646279746573;
 
         let left = len & 7;
-        let end = len - left;
         let mut b: u64 = len as u64 << 56;
 
         v3 ^= self.k1;
@@ -54,18 +55,21 @@ impl SipHasher {
         v1 ^= self.k1;
         v0 ^= self.k0;
 
-        for i in core::iter::range_step(0, end, 8) {
-            let m = unsafe {
-                (*(bytes.as_ptr().offset(i as int) as *const u64)).to_le()
-            };
+        let new_slice: &[u64] = unsafe {
+            transmute(Slice {
+                data: bytes.as_ptr(),
+                len: len / 8
+            })
+        };
 
+        for m in new_slice.iter().map(|n| n.to_le()) {
             v3 ^= m;
             round!(v0, v1, v2, v3);
             round!(v0, v1, v2, v3);
             v0 ^= m;
         }
 
-        for i in range(end, len) {
+        for i in range(len - left, len) {
             unsafe {
                 b |= *bytes.unsafe_ref(i) as u64 << 8 * i
             }
