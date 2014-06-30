@@ -94,11 +94,9 @@ macro_rules! bench_for_size {
     ($f:ident, $size:expr) => {
         #[bench]
         fn $f(b: &mut test::Bencher) {
-            let mut chunk = vec![];
-            for _ in range(0u, $size) {
-                chunk.push(b'.');
-            }
+            let chunk = Vec::from_elem($size, b'.');
             let sip = SipHasher::new();
+
             b.iter(|| sip.hash(chunk.as_slice()));
         }
     }
