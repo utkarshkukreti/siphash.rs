@@ -2,6 +2,31 @@
 
 This is a simple and fast implementation of the SipHash hashing algorithm.
 
+## Performance
+
+On a 2.8ghz Intel Xeon Virtual Server, it takes 14ns (39 cycles) to warm up, and
+then about 0.6ns (1.7 cycles) per byte.
+
+Raw output:
+
+    test bench_for_size_00000 ... bench:        14 ns/iter (+/- 0)
+    test bench_for_size_00001 ... bench:        16 ns/iter (+/- 0)
+    test bench_for_size_00002 ... bench:        16 ns/iter (+/- 0)
+    test bench_for_size_00004 ... bench:        17 ns/iter (+/- 0)
+    test bench_for_size_00008 ... bench:        20 ns/iter (+/- 0)
+    test bench_for_size_00016 ... bench:        24 ns/iter (+/- 2)
+    test bench_for_size_00032 ... bench:        35 ns/iter (+/- 0)
+    test bench_for_size_00064 ... bench:        56 ns/iter (+/- 1)
+    test bench_for_size_00128 ... bench:        98 ns/iter (+/- 1)
+    test bench_for_size_00256 ... bench:       184 ns/iter (+/- 1)
+    test bench_for_size_00512 ... bench:       343 ns/iter (+/- 14)
+    test bench_for_size_01024 ... bench:       648 ns/iter (+/- 6)
+    test bench_for_size_02048 ... bench:      1277 ns/iter (+/- 16)
+    test bench_for_size_04096 ... bench:      2531 ns/iter (+/- 19)
+    test bench_for_size_65536 ... bench:     39718 ns/iter (+/- 1702)
+
+You can run these benchmarks yourself by using `make bench`.
+
 ## Usage
 
 Add `siphash` as a dependency to your `Cargo.toml`
