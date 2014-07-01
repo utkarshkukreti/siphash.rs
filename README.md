@@ -1,10 +1,12 @@
 # SipHash.rs
 
-This is a simple and fast implementation of the SipHash hashing algorithm.
+SipHash.rs is a fast and efficient implementation of the SipHash hashing
+algorithm in Rust, but without any dependencies on Rust's runtime.
 
-Most importantly, this package does *not* depend on the Rust runtime, so it can
-be used in freestanding Rust programs (that was the reason I wrote this in first
-place).
+By design, it only supports hashing sequential bytes from memory.
+
+As it does *not* depend on the Rust runtime, it can be used in freestanding Rust
+programs, including Kernels.
 
 ## Performance
 
