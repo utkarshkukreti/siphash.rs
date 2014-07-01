@@ -2,6 +2,10 @@
 
 This is a simple and fast implementation of the SipHash hashing algorithm.
 
+Most importantly, this package does *not* depend on the Rust runtime, so it can
+be used in freestanding Rust programs (that was the reason I wrote this in first
+place).
+
 ## Performance
 
 On a 2.8ghz Intel Xeon Virtual Server, it takes 14ns (39 cycles) to warm up, and
