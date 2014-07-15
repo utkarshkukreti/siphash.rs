@@ -1,4 +1,4 @@
-#![crate_id = "siphash"]
+#![crate_name = "siphash"]
 #![crate_type = "lib"]
 #![feature(globs, macro_rules)]
 #![no_std]
