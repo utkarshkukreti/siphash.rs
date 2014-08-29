@@ -7,7 +7,6 @@ extern crate core;
 
 use core::prelude::*;
 use core::intrinsics::transmute;
-use core::raw::Slice;
 
 pub struct SipHasher {
     k0: u64,
@@ -56,7 +55,7 @@ impl SipHasher {
         v0 ^= self.k0;
 
         let new_slice: &[u64] = unsafe {
-            transmute(Slice {
+            transmute(core::raw::Slice {
                 data: bytes.as_ptr(),
                 len: len / 8
             })
