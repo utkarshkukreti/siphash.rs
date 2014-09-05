@@ -37,25 +37,29 @@ You can run these benchmarks yourself by using `make bench`.
 
 Add `siphash` as a dependency to your `Cargo.toml`
 
-    [package]
-    name = "foo"
-    version = "0.0.0"
-    authors = ["foo"]
+```toml
+[package]
+name = "foo"
+version = "0.0.0"
+authors = ["foo"]
 
-    [[bin]]
-    name = "foo"
+[[bin]]
+name = "foo"
 
-    [dependencies.siphash]
-    git = "https://github.com/utkarshkukreti/siphash.rs.git"
+[dependencies.siphash]
+git = "https://github.com/utkarshkukreti/siphash.rs.git"
+```
 
 Now you can add `siphash` as `extern crate` in `src/foo.rs`
 
-    extern crate siphash;
+```rust
+extern crate siphash;
 
-    fn main() {
-        let sip = siphash::SipHasher::new();
-        println!("hash for foo = {}", sip.hash(b"foo"));
-    }
+fn main() {
+    let sip = siphash::SipHasher::new();
+    println!("hash for foo = {}", sip.hash(b"foo"));
+}
+```
 
 And now build and run it:
 
