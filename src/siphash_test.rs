@@ -1,10 +1,8 @@
-#![feature(macro_rules)]
-
-extern crate siphash;
-extern crate core;
 extern crate test;
 
-use siphash::SipHasher;
+use std::prelude::*;
+
+use SipHasher;
 
 #[test]
 fn test_reference_impl() {

@@ -1,12 +1,17 @@
 #![crate_name = "siphash"]
 #![crate_type = "lib"]
-#![feature(globs, macro_rules)]
+#![feature(globs, phase, macro_rules)]
 #![no_std]
 
 extern crate core;
 
+#[cfg(test)] #[phase(plugin, link)] extern crate std;
+#[cfg(test)] extern crate native;
+
 use core::prelude::*;
 use core::intrinsics::transmute;
+
+#[cfg(test)] mod siphash_test;
 
 pub struct SipHasher {
     k0: u64,
