@@ -1,4 +1,4 @@
-# SipHash.rs
+# SipHash.rs [![Build Status](https://travis-ci.org/utkarshkukreti/siphash.rs.svg?branch=master)](https://travis-ci.org/utkarshkukreti/siphash.rs)
 
 SipHash.rs is a fast and efficient implementation of the SipHash hashing
 algorithm in Rust, but without any dependencies on Rust's runtime.
