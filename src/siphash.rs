@@ -76,7 +76,7 @@ impl SipHasher {
         macro_rules! k {
             ($($i:expr)+) => {{
                 unsafe {
-                    $(b |= *bytes.unsafe_ref(len - left + $i) as u64 << 8 * $i;)+
+                    $(b |= *bytes.unsafe_get(len - left + $i) as u64 << 8 * $i;)+
                 }
             }}
         }
