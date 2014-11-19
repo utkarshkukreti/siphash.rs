@@ -10,6 +10,7 @@ extern crate core;
 
 use core::prelude::*;
 use core::intrinsics::transmute;
+use core::num::Int;
 
 #[cfg(test)] mod siphash_test;
 
