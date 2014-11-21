@@ -1,5 +1,3 @@
-#![crate_name = "siphash"]
-#![crate_type = "lib"]
 #![feature(globs, phase, macro_rules)]
 #![no_std]
 
