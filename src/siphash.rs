@@ -4,7 +4,6 @@
 extern crate core;
 
 #[cfg(test)] #[phase(plugin, link)] extern crate std;
-#[cfg(test)] extern crate native;
 
 use core::prelude::*;
 use core::intrinsics::transmute;
