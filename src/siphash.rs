@@ -1,9 +1,9 @@
-#![feature(globs, phase, macro_rules)]
+#![feature(plugin)]
 #![no_std]
 
 extern crate core;
 
-#[cfg(test)] #[phase(plugin, link)] extern crate std;
+#[cfg(test)] #[plugin] #[macro_use] extern crate std;
 
 use core::prelude::*;
 use core::intrinsics::transmute;
@@ -50,7 +50,7 @@ impl SipHasher {
         let mut v3 = 0x7465646279746573;
 
         let left = len & 7;
-        let mut b = len as u64 << 56;
+        let mut b = (len as u64) << 56;
 
         v3 ^= self.k1;
         v2 ^= self.k0;
@@ -74,7 +74,7 @@ impl SipHasher {
         macro_rules! k {
             ($($i:expr)+) => {{
                 unsafe {
-                    $(b |= *bytes.unsafe_get(len - left + $i) as u64 << 8 * $i;)+
+                    $(b |= (*bytes.get_unchecked(len - left + $i) as u64) << 8 * $i;)+
                 }
             }}
         }

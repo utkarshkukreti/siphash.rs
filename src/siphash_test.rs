@@ -1,12 +1,13 @@
 extern crate test;
 
-use std::prelude::*;
+use core::prelude::*;
+use std::vec::Vec;
 
 use SipHasher;
 
 #[test]
 fn test_reference_impl() {
-    let vectors: [[u8, ..8], ..64] = [
+    let vectors: [[u8; 8]; 64] = [
         [ 0x31, 0x0e, 0x0e, 0xdd, 0x47, 0xdb, 0x6f, 0x72, ],
         [ 0xfd, 0x67, 0xdc, 0x93, 0xc5, 0x39, 0xf8, 0x74, ],
         [ 0x5a, 0x4f, 0xa9, 0xd9, 0x09, 0x80, 0x6c, 0x0d, ],
@@ -77,7 +78,7 @@ fn test_reference_impl() {
 
     let sip = SipHasher::new_with_keys(k0, k1);
 
-    let buf = Vec::from_fn(64, |i| i as u8);
+    let buf = range(0, 64).map(|i| i as u8).collect::<Vec<_>>();
 
     for i in range(0u, 64) {
         let expected = unsafe {
@@ -92,7 +93,9 @@ macro_rules! bench_for_size {
     ($f:ident, $size:expr) => {
         #[bench]
         fn $f(b: &mut test::Bencher) {
-            let chunk = Vec::from_elem($size, b'.');
+            use std::iter::repeat;
+
+            let chunk = repeat(b'.').take($size).collect::<Vec<_>>();
             let sip = SipHasher::new();
 
             b.iter(|| sip.hash(chunk.as_slice()));
