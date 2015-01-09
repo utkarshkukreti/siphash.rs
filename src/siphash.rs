@@ -1,3 +1,4 @@
+#![allow(unstable)]
 #![feature(plugin)]
 #![no_std]
 
