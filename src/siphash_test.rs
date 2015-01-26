@@ -85,7 +85,7 @@ fn test_reference_impl() {
             *(vectors[i].as_ptr() as *const u64)
         };
 
-        assert_eq!(expected, sip.hash(buf.slice_to(i)));
+        assert_eq!(expected, sip.hash(&buf[..i]));
     }
 }
 
