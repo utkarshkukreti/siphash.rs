@@ -9,8 +9,6 @@ use core::prelude::*;
 use core::intrinsics::transmute;
 use core::num::Int;
 
-#[cfg(test)] mod siphash_test;
-
 pub struct SipHasher {
     k0: u64,
     k1: u64
