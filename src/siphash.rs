@@ -1,5 +1,4 @@
-#![allow(unstable)]
-#![feature(plugin)]
+#![feature(plugin, no_std)]
 #![no_std]
 
 extern crate core;
