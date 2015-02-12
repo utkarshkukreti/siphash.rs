@@ -3,7 +3,11 @@
 
 extern crate core;
 
-#[cfg(test)] #[plugin] #[macro_use] extern crate std;
+#[cfg(test)]
+mod std {
+    extern crate std;
+    pub use self::std::{os, slice};
+}
 
 use core::prelude::*;
 use core::intrinsics::transmute;
