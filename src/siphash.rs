@@ -1,4 +1,4 @@
-#![feature(plugin, no_std)]
+#![feature(core, plugin, no_std)]
 #![no_std]
 
 extern crate core;
