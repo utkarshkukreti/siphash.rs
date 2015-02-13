@@ -6,7 +6,7 @@ extern crate core;
 #[cfg(test)]
 mod std {
     extern crate std;
-    pub use self::std::{os, slice};
+    pub use self::std::{env, os, slice};
 }
 
 use core::prelude::*;
