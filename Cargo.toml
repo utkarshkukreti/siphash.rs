@@ -2,6 +2,11 @@
 name = "siphash"
 version = "0.0.2"
 authors = ["Utkarsh Kukreti <utkarshkukreti@gmail.com>"]
+description = """
+A fast implementation of the SipHash hashing algorithm with \
+no dependency on libstd.
+"""
+license = "MIT"
 
 [lib]
 name = "siphash"
