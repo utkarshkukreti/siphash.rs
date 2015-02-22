@@ -77,7 +77,7 @@ fn test_reference_impl() {
 
     let buf = (0u8..64).collect::<Vec<_>>();
 
-    for i in 0us..64 {
+    for i in 0..64 {
         let expected = unsafe {
             *(vectors[i].as_ptr() as *const u64)
         };
