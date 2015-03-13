@@ -12,6 +12,7 @@ mod std {
 use core::prelude::*;
 use core::intrinsics::transmute;
 use core::num::Int;
+use core::num::wrapping::WrappingOps;
 
 pub struct SipHasher {
     k0: u64,
@@ -24,10 +25,12 @@ macro_rules! rotl {
 
 macro_rules! round {
     ($v0:ident, $v1:ident, $v2:ident, $v3:ident) => {{
-        $v0 += $v1; $v1 = rotl!($v1, 13); $v1 ^= $v0; $v0 = rotl!($v0, 32);
-        $v2 += $v3; $v3 = rotl!($v3, 16); $v3 ^= $v2;
-        $v0 += $v3; $v3 = rotl!($v3, 21); $v3 ^= $v0;
-        $v2 += $v1; $v1 = rotl!($v1, 17); $v1 ^= $v2; $v2 = rotl!($v2, 32);
+        $v0 = $v0.wrapping_add($v1); $v1 = rotl!($v1, 13); $v1 ^= $v0;
+        $v0 = rotl!($v0, 32);
+        $v2 = $v2.wrapping_add($v3); $v3 = rotl!($v3, 16); $v3 ^= $v2;
+        $v0 = $v0.wrapping_add($v3); $v3 = rotl!($v3, 21); $v3 ^= $v0;
+        $v2 = $v2.wrapping_add($v1); $v1 = rotl!($v1, 17); $v1 ^= $v2;
+        $v2 = rotl!($v2, 32);
     }}
 }
 
