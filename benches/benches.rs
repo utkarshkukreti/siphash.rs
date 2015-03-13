@@ -13,7 +13,7 @@ macro_rules! bench_for_size {
             let chunk = repeat(b'.').take($size).collect::<Vec<_>>();
             let sip = SipHasher::new();
 
-            b.iter(|| sip.hash(chunk.as_slice()));
+            b.iter(|| sip.hash(&chunk));
         }
     }
 }
