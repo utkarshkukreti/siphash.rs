@@ -11,8 +11,6 @@ mod std {
 
 use core::prelude::*;
 use core::intrinsics::transmute;
-use core::num::Int;
-use core::num::wrapping::WrappingOps;
 
 pub struct SipHasher {
     k0: u64,
