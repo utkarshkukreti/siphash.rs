@@ -1,4 +1,4 @@
-#![feature(core, plugin, no_std)]
+#![feature(plugin, no_std, raw, core, core_slice_ext, core_prelude)]
 #![no_std]
 
 extern crate core;
