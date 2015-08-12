@@ -1,16 +1,7 @@
-#![feature(plugin, no_std, raw, core, core_prelude)]
+#![feature(plugin, no_std, raw)]
 #![cfg_attr(not(test), feature(core_slice_ext))]
 #![no_std]
 
-extern crate core;
-
-#[cfg(test)]
-mod std {
-    extern crate std;
-    pub use self::std::{env, os, slice};
-}
-
-use core::prelude::*;
 use core::intrinsics::transmute;
 
 pub struct SipHasher {
