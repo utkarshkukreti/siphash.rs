@@ -1,6 +1,6 @@
 [package]
 name = "siphash"
-version = "0.0.4"
+version = "0.0.5"
 authors = ["Utkarsh Kukreti <utkarshkukreti@gmail.com>"]
 description = """
 A fast implementation of the SipHash hashing algorithm with \
