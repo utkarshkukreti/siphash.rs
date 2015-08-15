@@ -35,23 +35,6 @@ You can run these benchmarks yourself by using `make bench`.
 
 ## Usage
 
-Add `siphash` as a dependency to your `Cargo.toml`
-
-```toml
-[package]
-name = "foo"
-version = "0.0.0"
-authors = ["foo"]
-
-[[bin]]
-name = "foo"
-
-[dependencies.siphash]
-git = "https://github.com/utkarshkukreti/siphash.rs.git"
-```
-
-Now you can add `siphash` as `extern crate` in `src/foo.rs`
-
 ```rust
 extern crate siphash;
 
@@ -61,15 +44,11 @@ fn main() {
 }
 ```
 
-And now build and run it:
+prints
 
-    $ cargo build
-       Updating git repository `https://github.com/utkarshkukreti/siphash.rs.git`
-      Compiling siphash v0.0.0 (https://github.com/utkarshkukreti/siphash.rs.git)
-      Compiling foo v0.0.0 (file:/Users/utkarsh/dev/git/siphash.rs/examples)
-
-    $ target/foo
-    hash for foo = 15988776847138518036
+```
+hash for foo = 15988776847138518036
+```
 
 ## License
 
