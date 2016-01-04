@@ -1,5 +1,4 @@
-#![feature(plugin, no_std, raw)]
-#![cfg_attr(not(test), feature(core_slice_ext))]
+#![feature(raw)]
 #![no_std]
 
 use core::intrinsics::transmute;
